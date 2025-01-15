@@ -11,7 +11,8 @@ class TaskController extends Controller
 {
     public function index()
     {
-        return TaskResource::collection(Task::all());
+        $task = Task::with(['status'])->get();
+        return TaskResource::collection($task);
     }
 
     public function store(TaskRequest $taskRequest)
@@ -21,22 +22,26 @@ class TaskController extends Controller
         return new TaskResource(Task::create($data));
     }
 
-    public function show(Task $task)
+    public function show($uuid)
     {
+        $task = Task::where('uuid', $uuid)->firstOrFail();
         return new TaskResource($task);
     }
 
-    public function update(TaskRequest $taskRequest, Task $task)
+    public function update(TaskRequest $taskRequest, $uuid)
     {
         $data = $taskRequest->validated();
 
-        $task->update($data);
+        $task = Task::where('uuid', $uuid)->firstOrFail();
+        $task->status_id = $data['status_id'];
+        $task->save();
 
         return new TaskResource($task);
     }
 
-    public function destroy(Task $task)
+    public function destroy($uuid)
     {
+        $task = Task::where('uuid', $uuid)->firstOrFail();
         $task->delete();
 
         return response()->json();

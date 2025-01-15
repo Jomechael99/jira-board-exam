@@ -22,9 +22,16 @@ class TaskRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'description' => ['required'],
-            'status_id' => ['nullable', 'integer']
-        ];
+
+        return match ($this->getMethod()) {
+            'POST' => [
+                'description' => ['required'],
+                'status_id' => ['nullable', 'integer']
+            ],
+            'PUT' => [
+                'status_id' => ['nullable', 'integer']
+            ],
+            default => [],
+        };
     }
 }

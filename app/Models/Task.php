@@ -21,6 +21,11 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function status(): BelongsTo
+    {
+        return $this->belongsTo(Status::class);
+    }
+
     protected function casts(): array
     {
         return [
