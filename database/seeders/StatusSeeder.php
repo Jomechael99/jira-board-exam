@@ -23,12 +23,6 @@ class StatusSeeder extends Seeder
         ];
 
         $status[] =[
-            'name' => 'Ready to do',
-            'created_at' => $now,
-            'updated_at' => $now,
-        ];
-
-        $status[] =[
             'name' => 'In progress',
             'created_at' => $now,
             'updated_at' => $now,
